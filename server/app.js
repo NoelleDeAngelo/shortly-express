@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const Auth = require('./middleware/auth');
 const models = require('./models');
 const user = require('./models/user');
+const session = require('./models/session');
+
 
 const app = express();
 
@@ -112,6 +114,7 @@ app.post('/login', //checks to see if login credentials are correct if true rend
         var salt = obj.salt;
         var correct = user.compare(req.body.password, actualpassword, salt);
         if (correct) {
+          session.create();
           res.render('index');
         }
       }
